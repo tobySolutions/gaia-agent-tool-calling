@@ -5,7 +5,9 @@ import {
 } from 'ai';
 import { groq } from '@ai-sdk/groq';
 import { xai } from '@ai-sdk/xai';
+import {createOpenAI} from '@ai-sdk/openai';
 import { isTestEnvironment } from '../constants';
+
 import {
   artifactModel,
   chatModel,
@@ -13,26 +15,24 @@ import {
   titleModel,
 } from './models.test';
 
-export const myProvider = isTestEnvironment
-  ? customProvider({
-      languageModels: {
-        'chat-model': chatModel,
-        'chat-model-reasoning': reasoningModel,
-        'title-model': titleModel,
-        'artifact-model': artifactModel,
-      },
-    })
-  : customProvider({
-      languageModels: {
-        'chat-model': xai('grok-2-1212'),
-        'chat-model-reasoning': wrapLanguageModel({
-          model: groq('deepseek-r1-distill-llama-70b'),
-          middleware: extractReasoningMiddleware({ tagName: 'think' }),
-        }),
-        'title-model': xai('grok-2-1212'),
-        'artifact-model': xai('grok-2-1212'),
-      },
-      imageModels: {
-        'small-model': xai.image('grok-2-image'),
-      },
-    });
+const openai = createOpenAI({
+  apiKey: "Gaia",
+  baseURL: "https://0x00cfd37ffb149a55f031588da81110ab085fd9b6.gaia.domains/v1",
+})
+  
+export const myProvider =
+  customProvider({
+    languageModels: {
+      'chat-model': openai('Llama-3-Groq-8B-Tool'),
+      'chat-model-reasoning': wrapLanguageModel({
+        model: openai('Llama-3-Groq-8B-Tool'),
+        middleware: extractReasoningMiddleware({ tagName: 'think' }),
+      }),
+      'title-model': openai('Llama-3-Groq-8B-Tool'),
+      'artifact-model': openai('	Llama-3-Groq-8B-Tool'),
+    },
+  });
+
+    
+
+

@@ -25,6 +25,8 @@ export const login = async (
       password: formData.get('password'),
     });
 
+    
+
     await signIn('credentials', {
       email: validatedData.email,
       password: validatedData.password,
@@ -66,8 +68,8 @@ export const register = async (
     if (user) {
       return { status: 'user_exists' } as RegisterActionState;
     }
-    await createUser(validatedData.email, validatedData.password);
-    await signIn('credentials', {
+    await createUser(validatedData.email, validatedData.password); 
+    await signIn('credentials', { 
       email: validatedData.email,
       password: validatedData.password,
       redirect: false,

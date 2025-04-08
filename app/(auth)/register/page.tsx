@@ -23,6 +23,7 @@ export default function Page() {
     },
   );
 
+
   useEffect(() => {
     if (state.status === 'user_exists') {
       toast({ type: 'error', description: 'Account already exists!' });
